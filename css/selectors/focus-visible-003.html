@@ -37,6 +37,12 @@
   </ol>
   <br />
   <div>
+    <select class="check" id="el-0">
+      <option>Focus me.</option>
+      <option>Focus me.</option>
+    </select>
+  </div>
+  <div>
     <span class="check" id="el-1" tabindex="1">Focus me</span>
   </div>
   <div>
@@ -86,6 +92,12 @@
       promise_test(() => {
         return new Promise(resolve => {
           target.addEventListener("focus", resolve);
+
+          // In the first element after the <select> we need to do two clicks.
+          // The first click will just close the <select> dropdown, the second one will focus the element.
+          if (target.id === "el-1")
+            test_driver.click(target);
+
           test_driver.click(target).then(() => {
             if (i == (elements.length - 1))
               done();
