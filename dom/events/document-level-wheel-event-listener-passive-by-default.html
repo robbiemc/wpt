@@ -3,6 +3,9 @@
 <link rel="help" href="https://github.com/WICG/interventions/issues/64">
 <script src="/resources/testharness.js"></script>
 <script src="/resources/testharnessreport.js"></script>
+<script src="/resources/testdriver.js"></script>
+<script src="/resources/testdriver-actions.js"></script>
+<script src="/resources/testdriver-vendor.js"></script>
 <body onload=runTest()>
 <div>This is a manual test since there is no way to synthesize wheel events.
 Scroll by wheel in the middle of the page to run the test.</div>
@@ -35,6 +38,8 @@ function waitFor(condition) {
 
 function runTest() {
   promise_test (async () => {
+    await new test_driver.Actions()
+       .scroll(Math.floor(window.innerWidth / 2), Math.floor(window.innerHeight / 2), 0, 100).send();
     await waitFor(()=> { return wheel_arrived; });
     assert_false(cancelable);
   }, "Wheel events are non-cancelable since the event listener is treated as passive.");
